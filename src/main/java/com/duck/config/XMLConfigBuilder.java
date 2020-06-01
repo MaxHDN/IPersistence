@@ -4,11 +4,9 @@ import com.duck.pojo.Configuration;
 import com.duck.pojo.Resources;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
-import java.beans.PropertyVetoException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
@@ -24,7 +22,7 @@ public class XMLConfigBuilder {
     /**
      * 该方法就是将配置文件进行解析，封装Configuration
      */
-    public Configuration parseConfig(InputStream in) throws DocumentException, PropertyVetoException {
+    public Configuration parseConfig(InputStream in) throws Exception {
 
         Document document = new SAXReader().read(in);
         //<configurarion>

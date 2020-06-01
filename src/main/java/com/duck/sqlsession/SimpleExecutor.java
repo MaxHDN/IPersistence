@@ -5,20 +5,20 @@ import com.duck.pojo.MappedStatement;
 import com.duck.utils.GenericTokenParser;
 import com.duck.utils.ParameterMapping;
 import com.duck.utils.ParameterMappingTokenHandler;
-import com.duck.utils.TokenHandler;
 
-import java.beans.IntrospectionException;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SimpleExecutor implements Executor {
     @Override
-    public <E> List<E> query(Configuration configuration, MappedStatement mappedStatement, Object... params) throws SQLException, ClassNotFoundException, NoSuchFieldException, IllegalAccessException, InstantiationException, IntrospectionException, InvocationTargetException {
+    public <E> List<E> query(Configuration configuration, MappedStatement mappedStatement, Object... params) throws Exception {
         //1.注册驱动，获取连接
         Connection connection = configuration.getDataSource().getConnection();
 
