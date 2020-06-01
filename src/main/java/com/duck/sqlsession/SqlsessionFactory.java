@@ -1,4 +1,5 @@
 package com.duck.sqlsession;
 
-public class SqlsessionFactory {
+public interface SqlsessionFactory {
+    public SqlSession openSession();
 }

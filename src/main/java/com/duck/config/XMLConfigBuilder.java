@@ -1,6 +1,7 @@
 package com.duck.config;
 
 import com.duck.pojo.Configuration;
+import com.duck.pojo.Resources;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -26,7 +27,7 @@ public class XMLConfigBuilder {
     public Configuration parseConfig(InputStream in) throws DocumentException, PropertyVetoException {
 
         Document document = new SAXReader().read(in);
-        //<configurarion
+        //<configurarion>
         Element rootElement = document.getRootElement();
 
         List<Element> list = rootElement.selectNodes("//property");
@@ -39,7 +40,7 @@ public class XMLConfigBuilder {
 
         ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
         comboPooledDataSource.setDriverClass(properties.getProperty("driverClass"));
-        comboPooledDataSource.setJdbcUrl(properties.getProperty("jdbUrl"));
+        comboPooledDataSource.setJdbcUrl(properties.getProperty("jdbcUrl"));
         comboPooledDataSource.setUser(properties.getProperty("username"));
         comboPooledDataSource.setPassword(properties.getProperty("password"));
         configuration.setDataSource(comboPooledDataSource);
@@ -47,8 +48,10 @@ public class XMLConfigBuilder {
         //mapper.xml解析
         List<Element> mapperList = rootElement.selectNodes("//mapper");
         for (Element element : mapperList) {
-            element.attributeValue("resource");
-
+            String mapperPath = element.attributeValue("resource");
+            InputStream resouceAsStream = Resources.getResouceAsStream(mapperPath);
+            XmlMapperBuilder xmlMapperBuilder = new XmlMapperBuilder(configuration);
+            xmlMapperBuilder.parse(resouceAsStream);
         }
 
         return configuration;
